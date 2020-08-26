@@ -2,9 +2,10 @@ package ghapi
 
 import (
 	"context"
-	"github.com/jmartin82/mkpis/pkg/vcs"
 	"log"
 	"time"
+
+	"github.com/jmartin82/mkpis/pkg/vcs"
 
 	"github.com/google/go-github/v32/github" // with go modules enabled (GO111MODULE=on or outside GOPATH)
 	"golang.org/x/oauth2"
@@ -25,14 +26,12 @@ func (cli *Client) connect(accessToken string) {
 	cli.c = github.NewClient(tc)
 }
 
-
 func NewClient(accessToken string) *Client {
 	cli := &Client{}
 	cli.ctx = context.Background()
 	cli.connect(accessToken)
 	return cli
 }
-
 
 func (cli *Client) getFirstAndLastCommitTime(owner string, repo string, prNum int) (first time.Time, last time.Time) {
 	log.Printf("Getting first and last commit from %d", prNum)
@@ -111,7 +110,7 @@ pagination:
 				break pagination
 			}
 
-			if pr.MergedAt.IsZero() || pr.ClosedAt.After(to) {
+			if pr.GetMergedAt().IsZero() || pr.GetClosedAt().After(to) {
 				continue
 			}
 

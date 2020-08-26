@@ -14,7 +14,7 @@ import (
 )
 
 func AvgDurationFormater(d time.Duration) string {
-	t, err := durationfmt.Format(d, "%dd %hh %mm")
+	t, err := durationfmt.Format(d, "AVG: %dd %hh %mm")
 	if err != nil {
 		return "ERROR"
 	}
@@ -95,7 +95,7 @@ func (u CmdUI) getFeatureBranchReport(from, to time.Time) (string, error) {
 
 	tableString := &strings.Builder{}
 	table := tablewriter.NewWriter(tableString)
-	table.SetHeader([]string{"PR", "Commits", "Size", "Time To First Review", "Review time", "Last Review To Merge", "PR Lead Time", "Time To Merge"})
+	table.SetHeader([]string{"PR", "Commits", "Size", "Time To First Review", "Review time", "Last Review To Merge", "Comments", "PR Lead Time", "Time To Merge"})
 
 	for _, pr := range prs {
 		table.Append([]string{
@@ -105,6 +105,7 @@ func (u CmdUI) getFeatureBranchReport(from, to time.Time) (string, error) {
 			DurationFormater(pr.TimeToFirstReview()),
 			DurationFormater(pr.TimeToReview()),
 			DurationFormater(pr.LastReviewToMerge()),
+			strconv.Itoa(pr.ReviewComments),
 			DurationFormater(pr.PRLeadTime()),
 			DurationFormater(pr.TimeToMerge()),
 		})
@@ -113,12 +114,14 @@ func (u CmdUI) getFeatureBranchReport(from, to time.Time) (string, error) {
 
 	kpi := vcs.NewKPICalculator(prs)
 
-	table.SetFooter([]string{"",
-		fmt.Sprintf("%f", kpi.AvgCommits()),
-		fmt.Sprintf("%f", kpi.AvgChangedLines()),
+	table.SetFooter([]string{
+		fmt.Sprintf("Count: %d", kpi.CountPR()),
+		fmt.Sprintf("AVG: %.2f", kpi.AvgCommits()),
+		fmt.Sprintf("AVG: %.2f", kpi.AvgChangedLines()),
 		AvgDurationFormater(kpi.AvgTimeToFirstReview()),
 		AvgDurationFormater(kpi.AvgTimeToReview()),
 		AvgDurationFormater(kpi.AvgLastReviewToMerge()),
+		fmt.Sprintf("AVG: %.2f", kpi.AvgReviews()),
 		AvgDurationFormater(kpi.AvgPRLeadTime()),
 		AvgDurationFormater(kpi.AvgTimeToMerge()),
 	}) // Add Footer
@@ -152,9 +155,10 @@ func (u CmdUI) getReleaseBranchReport(from, to time.Time) (string, error) {
 
 	kpi := vcs.NewKPICalculator(prs)
 
-	table.SetFooter([]string{"",
-		fmt.Sprintf("%f", kpi.AvgCommits()),
-		fmt.Sprintf("%f", kpi.AvgChangedLines()),
+	table.SetFooter([]string{
+		fmt.Sprintf("Count: %d", kpi.CountPR()),
+		fmt.Sprintf("AVG: %.2f", kpi.AvgCommits()),
+		fmt.Sprintf("AVG: %.2f", kpi.AvgChangedLines()),
 		AvgDurationFormater(kpi.AvgPRLeadTime()),
 		AvgDurationFormater(kpi.AvgTimeToMerge()),
 	}) // Add Footer

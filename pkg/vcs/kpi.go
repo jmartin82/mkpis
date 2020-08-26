@@ -32,6 +32,7 @@ type KPICalculator struct {
 	prs               []PR
 	commits           []int
 	changes           []int
+	reviews           []int
 	timeToMerge       []time.Duration
 	timeToReview      []time.Duration
 	timeToFirstReview []time.Duration
@@ -56,8 +57,14 @@ func (kpi *KPICalculator) calc() {
 		kpi.timeToFirstReview = append(kpi.timeToFirstReview, pr.TimeToFirstReview())
 		kpi.lastReviewToMerge = append(kpi.lastReviewToMerge, pr.LastReviewToMerge())
 		kpi.pRLeadTime = append(kpi.pRLeadTime, pr.PRLeadTime())
+		kpi.reviews = append(kpi.reviews, pr.ReviewComments)
+
 	}
 
+}
+
+func (kpi *KPICalculator) CountPR() int {
+	return len(kpi.prs)
 }
 
 func (kpi *KPICalculator) AvgCommits() float64 {
@@ -82,4 +89,8 @@ func (kpi *KPICalculator) AvgLastReviewToMerge() time.Duration {
 }
 func (kpi *KPICalculator) AvgPRLeadTime() time.Duration {
 	return averageDuration(kpi.pRLeadTime)
+}
+
+func (kpi *KPICalculator) AvgReviews() float64 {
+	return averageInt(kpi.reviews)
 }
