@@ -19,7 +19,7 @@ Howbeit, you shouldn't use these metrics to compare teams or individuals rather 
 
 The numbers can change in the order of magnitude depending on the kind of project or the kind of task the developer is working on.
 
-## Engineering Metrics 
+## Software Engineering Metrics 
 
 Team/developer effort can’t be measured just by how many pull requests are merged or how big the PR is.
 
