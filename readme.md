@@ -19,6 +19,25 @@ Howbeit, you shouldn't use these metrics to compare teams or individuals rather 
 
 The numbers can change in the order of magnitude depending on the kind of project or the kind of task the developer is working on.
 
+## Engineering Metrics 
+
+Team/developer effort can’t be measured just by how many pull requests are merged or how big the PR is.
+
+This application will provide a bunch of metrics but you should give them meaning align with your organization engineering culture.
+
+For example, fast code reviews are a good sign, but if see them on big tasks and with quite a long time until the revision starts its a clear sign that the developers are afraid or they are lazy to review 500 lines and they just skipped. 
+
+Another example, a long time before and after the CR it can be a signal of a lot of issues that you should investigate for instance it can be a signal of constant merging conflicts if it goes together long times between the first commit until the merge. 
+
+Your team is complex and the secrets to debug and improve it are in the details rather than in just one metric.
+
+You can also use these metrics to test your theories and prove the changes you applied are the correct ones.
+
+How can I decrease more the QA time, hiring another QA or forcing the developers to test at least the happy path?
+
+Is it true that doing the task in peer programming will reduce the QA time and remove the Code review time? is it worth it?
+
+
 ## How does it work?
 
 
@@ -65,7 +84,7 @@ MASTER_BRANCH_NAME=master
  
 
 
-## Engineering Metrics 
+## Pull request KPI
 
 
 
